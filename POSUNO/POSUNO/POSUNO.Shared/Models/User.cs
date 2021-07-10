@@ -8,9 +8,9 @@ namespace POSUNO.Models
     {
         public int Id { get; set; }
         public string Email { get; set; }
-        public string FirtName { get; set; }
+        public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
-        public string FullName => $"{FirtName} {LastName}";
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

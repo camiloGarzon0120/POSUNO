@@ -6,17 +6,22 @@ using System.Threading.Tasks;
 
 namespace POSUNO.Api.Data.Entities
 {
-    public class Product
+    public class Customer
     {
         public int Id { get; set; }
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string FirtName { get; set; }
         [Required]
-        [MaxLength(500)]
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public float Stock { get; set; }
+        [MaxLength(50)]
+        public string LastName { get; set; }
+        [MaxLength(20)]
+        public string PhoneNumber { get; set; }
+        [MaxLength(200)]
+        public string Adrress { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
         public bool IsActive { get; set; }
         [Required]
         public User User { get; set; }
