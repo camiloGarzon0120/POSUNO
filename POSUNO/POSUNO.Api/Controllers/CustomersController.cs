@@ -43,7 +43,6 @@ namespace POSUNO.Api.Controllers
         }
 
         // PUT: api/Customers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
@@ -52,6 +51,13 @@ namespace POSUNO.Api.Controllers
                 return BadRequest();
             }
 
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == customer.User.Email);
+            if (user == null)
+            {
+                return BadRequest("Usuario no existe.");
+            }
+
+            customer.User = user;
             _context.Entry(customer).State = EntityState.Modified;
 
             try
@@ -70,14 +76,26 @@ namespace POSUNO.Api.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(customer);
         }
 
         // POST: api/Customers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == customer.User.Email);
+            if(user == null)
+            {
+                return BadRequest("Usuario no existe.");
+            }
+
+            Customer odlCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == customer.Email);
+            if (odlCustomer != null)
+            {
+                return BadRequest("Ya hay un cliente registrado con ese email");
+            }
+
+            customer.User = user;
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
