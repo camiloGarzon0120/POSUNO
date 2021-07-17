@@ -86,7 +86,7 @@ namespace POSUNO
         private void SaveParameters()
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            localSettings.Values["ApiUrl"] = "https://posunoapijet.azurewebsites.net/";
+            localSettings.Values["ApiUrl"] = "https://posunocomapi.azurewebsites.net";
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

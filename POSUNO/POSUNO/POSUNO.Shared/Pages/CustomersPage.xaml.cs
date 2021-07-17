@@ -41,7 +41,7 @@ namespace POSUNO.Pages
         {
             Loader loader = new Loader("Por favor espere");
             loader.Show();
-            Response response = await ApiService.GetListAsync<Customer>("Customers");
+            Response response = await ApiService.GetListAsync<Customer>("Customers", MainPage.GetInstance().TokenResponse.Token);
             loader.Close();
 
             if(!response.IsSuccess)
@@ -73,11 +73,9 @@ namespace POSUNO.Pages
                 return;
             }
 
-            customer.User = MainPage.GetInstance().User;
-
             Loader loader = new Loader("Por favor espere");
             loader.Show();
-            Response response = await ApiService.PostListAsync("Customers", customer);
+            Response response = await ApiService.PostListAsync("Customers", customer, MainPage.GetInstance().TokenResponse.Token);
             loader.Close();
 
             if(!response.IsSuccess)
@@ -103,11 +101,9 @@ namespace POSUNO.Pages
                 return;
             }
 
-            customer.User = MainPage.GetInstance().User;
-
             Loader loader = new Loader("Por favor espere");
             loader.Show();
-            Response response = await ApiService.PutListAsync("Customers", customer, customer.Id);
+            Response response = await ApiService.PutListAsync("Customers", customer, customer.Id, MainPage.GetInstance().TokenResponse.Token);
             loader.Close();
 
             if (!response.IsSuccess)
@@ -135,7 +131,7 @@ namespace POSUNO.Pages
             Loader loader = new Loader("Por favor espere");
             loader.Show();
             Customer customer = Customers[CustomersListView.SelectedIndex];
-            Response response = await ApiService.DeleteAsync("Customers", customer.Id);
+            Response response = await ApiService.DeleteAsync("Customers", customer.Id, MainPage.GetInstance().TokenResponse.Token);
             loader.Close();
 
             if (!response.IsSuccess)

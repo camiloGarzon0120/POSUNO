@@ -12,8 +12,6 @@ namespace POSUNO.Api.Data.Entities
         [Required]
         [MaxLength(50)]
         public string LastName { get; set; }
-        public ICollection<Product>  Products { get; set; }
-        public ICollection<Customer> Customers { get; set; }
     }
 
 }

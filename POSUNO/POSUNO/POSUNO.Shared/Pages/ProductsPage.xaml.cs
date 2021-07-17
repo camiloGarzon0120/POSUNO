@@ -39,7 +39,7 @@ namespace POSUNO.Pages
         {
             Loader loader = new Loader("Por favor espere");
             loader.Show();
-            Response response = await ApiService.GetListAsync<Product>("Products");
+            Response response = await ApiService.GetListAsync<Product>("Products", MainPage.GetInstance().TokenResponse.Token);
             loader.Close();
 
             if (!response.IsSuccess)
@@ -70,8 +70,6 @@ namespace POSUNO.Pages
             {
                 return;
             }
-
-            product.User = MainPage.GetInstance().User;
 
             Loader loader = new Loader("Por favor espere");
             loader.Show();
