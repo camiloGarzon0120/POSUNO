@@ -13,5 +13,7 @@ namespace POSUNO.Models
         public float Stock { get; set; }
         public bool IsActive { get; set; }
         public User User { get; set; }
+        public bool WasSaved { get; set; }
+        public bool IsEdit { get; set; }
     }
 }

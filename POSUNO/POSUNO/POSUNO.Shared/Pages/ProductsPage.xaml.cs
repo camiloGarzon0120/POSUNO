@@ -1,4 +1,5 @@
 ﻿using POSUNO.Components;
+using POSUNO.Dialogs;
 using POSUNO.Helpers;
 using POSUNO.Models;
 using System;
@@ -26,9 +27,12 @@ namespace POSUNO.Pages
         public ProductsPage()
         {
             InitializeComponent();
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
             loadProductAsync();
         }
-
         public ObservableCollection<Product> Products { get; set; }
 
         private async void loadProductAsync()
@@ -56,6 +60,36 @@ namespace POSUNO.Pages
             ProductsListView.Items.Clear();
             ProductsListView.ItemsSource = Products;
         }
+
+        private async void AddProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            Product product = new Product();
+            ProductDialog dialog = new ProductDialog(product);
+            await dialog.ShowAsync();
+            if (!product.WasSaved)
+            {
+                return;
+            }
+
+            product.User = MainPage.GetInstance().User;
+
+            Loader loader = new Loader("Por favor espere");
+            loader.Show();
+            Response response = await ApiService.PostListAsync("Products", product);
+            loader.Close();
+
+            if (!response.IsSuccess)
+            {
+                MessageDialog messageDialog = new MessageDialog(response.Message, "Error");
+                await messageDialog.ShowAsync();
+                return;
+            }
+
+            Product newProduct = (Product)response.Result;
+            Products.Add(newProduct);
+            RefreshList();
+        }
+
 
     }
 }
